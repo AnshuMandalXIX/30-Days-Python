@@ -1259,3 +1259,117 @@ To see modules in action on your computer, follow these steps:
 
 **Bonus:** Use dir(math) in your script to see all the other mathematical functions Python offers!
 
+# 📘 Day 13: List Comprehension
+
+List comprehension is a compact syntax for generating new lists. It allows you to perform operations on each item in a sequence and filter items based on conditions—all within a single line of code.
+
+**The Syntax:**
+
+**new_list = [expression for item in iterable if condition]**
+
+* **Expression:** What you want to do to the item (the output).
+
+* **Item:** The variable representing the element in the iterable.
+
+* **Iterable:** The list, range, or string you are looping through.
+
+* **Condition (Optional):** A filter to decide if the item should be included.
+
+## Key Concepts
+
+* Converting a standard **for** loop into a list comprehension.
+
+* Applying mathematical operations to list elements.
+
+* Filtering data using **if** statements within the comprehension.
+
+* Using list comprehension with strings.
+
+## Code Examples
+
+#### Example 1: Basic List Comprehension
+Let's compare a traditional loop with a list comprehension.
+
+```shell
+    # Traditional Way: Squaring numbers 0-5
+    squares = []
+    for x in range(6):
+        squares.append(x**2)
+    
+    print(f"Traditional: {squares}")
+    
+    # List Comprehension Way
+    # [expression for item in iterable]
+    squares_comp = [x**2 for x in range(6)]
+    
+    print(f"Comprehension: {squares_comp}")
+```
+
+
+#### Example 2: Adding a Condition (Filtering)
+You can add an **if** statement at the end to filter which items get added to the new list.
+
+```shell
+    # Create a list of even numbers from 0 to 10
+    evens = [n for n in range(11) if n % 2 == 0]
+    
+    print(f"Even numbers: {evens}")
+    
+    # Extracting names that start with 'A'
+    names = ["Alice", "Bob", "Amanda", "Charlie", "Austin"]
+    a_names = [name for name in names if name.startswith("A")]
+    
+    print(f"Names starting with A: {a_names}")
+```
+
+#### Example 3: String Manipulation
+List comprehension is great for cleaning up or transforming text data.
+
+```shell
+    languages = ["python", "java", "javascript", "c++"]
+    
+    # Convert all strings to uppercase
+    upper_languages = [lang.upper() for lang in languages]
+    
+    print(f"Uppercase: {upper_languages}")
+```
+
+## Execution Steps
+
+To see these examples in action, follow these steps:
+
+1. Open your preferred code editor (VS Code, PyCharm, or even a text editor).
+
+2. Create a new file named **day13.py**.
+
+3. Copy and paste the code examples provided above into the file.
+
+4. Open your terminal or command prompt.
+
+5. Navigate to the directory where you saved the file.
+
+6. Run the script using the command:
+```shell
+    python day13.py
+```
+
+## Mini Challenge: The "Positive Multiples" Task
+
+Now it's your turn to practice!
+
+**The Goal:** Given a list of numbers, create a new list that contains the **triple** of every **positive** number (numbers greater than zero).
+
+**Input List:**
+```shell
+    numbers = [-5, 3, -1, 10, 2, 0, -8]
+```
+
+**Instructions:**
+
+1. Use list comprehension to filter out numbers that are 0 or less.
+
+2. Multiply the remaining numbers by 3.
+
+3. Print the resulting list.
+
+*Hint: Your final list should look like [9, 30, 6].*
