@@ -1593,3 +1593,197 @@ The following script demonstrates how these errors are triggered.
 * [ ] Did you identify which error type each action caused?
 
 * [ ] Did you use try...except to keep your program from crashing?
+
+# 📘 Day 16: Python Date Time
+
+Python doesn't have a data type called "date" of its own, but we can import a module named **datetime** to work with dates as objects. These objects allow us to manipulate years, months, days, hours, and even microseconds with ease.
+
+## Key Concepts
+
+Today, we will cover the following:
+
+* Importing the **datetime** module.
+
+* Getting the current date and time.
+
+* Creating specific date objects.
+
+* Formatting dates into readable strings using **strftime**.
+
+* Parsing strings into date objects using **strptime.**
+
+* Calculating time differences using **timedelta.**
+
+## Code Examples
+
+```shell
+    import datetime
+    
+    # --- 1. Getting Current Date and Time ---
+    now = datetime.datetime.now()
+    print(f"Current Date and Time: {now}")
+    print(f"Current Year: {now.year}")
+    print(f"Current Month: {now.month}")
+    
+    # --- 2. Creating a Specific Date ---
+    # Syntax: datetime.datetime(year, month, day, hour, minute, second)
+    target_date = datetime.datetime(2025, 1, 1, 12, 0, 0)
+    print(f"Target Date: {target_date}")
+    
+    # --- 3. Formatting Dates (strftime) ---
+    # %Y = Year, %m = Month, %d = Day, %H = Hour, %M = Minute
+    readable_date = now.strftime("%B %d, %Y")
+    print(f"Formated Date: {readable_date}")
+    
+    # --- 4. Converting String to Date (strptime) ---
+    date_string = "25 December, 2023"
+    parsed_date = datetime.datetime.strptime(date_string, "%d %B, %Y")
+    print(f"Parsed Object: {parsed_date}")
+    
+    # --- 5. Using Timedelta for Calculations ---
+    # Let's find out what the date will be in 10 days
+    today = datetime.date.today()
+    ten_days_later = today + datetime.timedelta(days=10)
+    print(f"Date in 10 days: {ten_days_later}")
+    
+    # Calculate difference between two dates
+    diff = target_date - now
+    print(f"Days until target: {diff.days} days")
+```
+
+## Execution Steps
+
+To run the code above, follow these simple steps:
+
+1. Open your editor: Open VS Code, PyCharm, or any text editor.
+
+2. Create a file: Create a new file and name it **day16.py**.
+
+3. Copy and Paste: Copy the code block provided above and paste it into your file.
+
+4. Run the script: Open your terminal or command prompt and type:
+```shell
+    python day16.py
+```
+5. Observe: Check the output to see how Python displays the date objects versus the formatted strings.
+
+## Mini Challenge: "The Birthday Calculator"
+
+Now it's your turn! Write a script that does the following:
+
+1. Store your birthday in a variable using the **datetime** object.
+
+2. Calculate how many days are left until your **next** birthday.
+
+3. Print the result in a friendly message (e.g., "Only 45 days left until my birthday!").
+
+**Pro Tip:** Use **datetime.date.today()** to get today's date and compare it with your birthday month and day.
+
+# 📘 Day 17: Exception Handling
+
+In Python, an **exception** is an error that happens during the execution of a program. When a Python script encounters a situation it cannot cope with, it raises an exception. If we don’t handle it, the program crashes.
+
+**Exception Handling** is the process of anticipating these errors and providing a graceful way for the program to continue running or inform the user politely, rather than just quitting with a scary error message.
+
+## Key Concepts
+
+In this lesson, we will cover the four blocks used to handle exceptions:
+
+* **`try`:** The block of code where you anticipate an error might occur.
+
+* **`except`:** The block that executes if an error occurs in the **try** block.
+
+* **`else`:** (Optional) The block that runs only if no errors were raised.
+
+* **`finally`:** (Optional) The block that runs no matter what happens (great for cleanup tasks).
+
+* **Specific Exceptions:** How to catch specific errors like **ValueError** or **ZeroDivisionError**.
+
+## Code Examples
+
+#### Basic Exception Handling
+This example demonstrates how to prevent a program from crashing when a user provides invalid input.
+
+```shell
+    # Day 17: Exception Handling Example
+    
+    def divide_numbers():
+        try:
+            # Prompt user for input
+            numerator = int(input("Enter a number to divide: "))
+            denominator = int(input("Enter a number to divide by: "))
+            
+            # This will raise ZeroDivisionError if denominator is 0
+            # or ValueError if input is not an integer
+            result = numerator / denominator
+            
+        except ValueError:
+            # Runs if the user types something that isn't an integer
+            print("Error: Please enter valid whole numbers.")
+            
+        except ZeroDivisionError:
+            # Runs if the user tries to divide by zero
+            print("Error: You cannot divide by zero!")
+            
+        except Exception as e:
+            # Catch-all for any other unexpected errors
+            print(f"An unexpected error occurred: {e}")
+            
+        else:
+            # Runs only if the try block was successful
+            print(f"Success! The result is: {result}")
+            
+        finally:
+            # Runs every single time, regardless of errors
+            print("Thank you for using the divider program.")
+    
+    # Execute the function
+    divide_numbers()
+```
+
+#### Handling File Errors
+It is very common to use exception handling when working with files.
+
+```shell
+    try:
+        # Attempt to open a file that might not exist
+        with open("secret_data.txt", "r") as file:
+            content = file.read()
+            print(content)
+    except FileNotFoundError:
+        print("Oops! The file 'secret_data.txt' was not found.")
+```
+
+## Execution Steps
+
+To run these examples:
+
+1. Open your IDE: Open VS Code, PyCharm, or any text editor.
+
+2. Create a file: Save the code as **day17.py**.
+
+3. Run the script: Open your terminal or command prompt and type:
+```shell
+    python day17.py
+```
+4. Test it: Run the script multiple times. Try entering a string (like "hello") instead of a number, or try dividing by zero to see how the program responds without crashing.
+
+## Mini Challenge: The "Age Calculator"
+
+Write a small script that asks a user for their **year of birth** and calculates their age.
+
+**Requirements:**
+
+1. Use a **try** block to convert the user input to an integer.
+
+2. Use an **except** block to catch **ValueError** if the user types something other than a number.
+
+3. Add a **finally** block that prints "Calculation complete."
+
+**Example Logic:**
+
+* Input: **1995** -> Output: **You are 29 years old.**
+
+* Input: **banana** -> Output: **That is not a valid year!**
+
+*Hint: Use 2026 (or the current year) as the base for your subtraction.*
