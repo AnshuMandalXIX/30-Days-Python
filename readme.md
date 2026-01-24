@@ -1787,3 +1787,105 @@ Write a small script that asks a user for their **year of birth** and calculates
 * Input: **banana** -> Output: **That is not a valid year!**
 
 *Hint: Use 2026 (or the current year) as the base for your subtraction.*
+
+# 📘 Day 18: Regular Expressions in Python
+
+A Regular Expression is a special sequence of characters that helps you match or find other strings or sets of strings, using a specialized syntax held in a pattern. Think of it as a "Super Search" tool. While a standard search looks for an exact word, RegEx allows you to search for patterns, such as "any email address," "any phone number," or "any word that starts with 'A' and ends with 'z'."
+
+In Python, we use the built-in **`re`** module to work with regular expressions.
+
+## Key Concepts
+
+In this lesson, we will cover:
+
+* **The `re` module:** Importing and using the library.
+
+* **Common Functions:** **re.match()**, **re.search()**, **re.findall()**, and **re.split()**.
+
+* **Meta-characters:** Characters with special meanings **(e.g., . , ^, $, *, +)**.
+
+* **Character Sets:** Using **[]** to match specific types of characters.
+
+* **Quantifiers:** Specifying how many times a character should repeat.
+
+## Code Examples
+
+Let's explore how to use the `re` module with practical examples.
+
+```shell
+    import re
+    
+    # Sample text for our demonstrations
+    text = "Python is amazing. I love learning Python in 2024!"
+    
+    # 1. re.findall() - Finds all occurrences of a pattern
+    # Let's find every instance of 'Python'
+    matches = re.findall(r"Python", text)
+    print(f"Findall matches: {matches}")  # Output: ['Python', 'Python']
+    
+    # 2. re.search() - Searches for a pattern and returns a Match object (first occurrence)
+    search_obj = re.search(r"amazing", text)
+    if search_obj:
+        print(f"Match found at index: {search_obj.start()}")
+    else:
+        print("No match found.")
+    
+    # 3. Using Meta-characters
+    # \d matches any digit (0-9)
+    # + means 'one or more'
+    digits = re.findall(r"\d+", text)
+    print(f"Digits found: {digits}")  # Output: ['2024']
+    
+    # 4. Character Sets []
+    # Let's find words that start with 'l' or 'a'
+    # \b represents a word boundary
+    words = re.findall(r"\b[la]\w+", text)
+    print(f"Words starting with 'l' or 'a': {words}") # Output: ['love', 'learning', 'amazing']
+    
+    # 5. re.sub() - Replace patterns
+    # Replace 'Python' with 'Coding'
+    new_text = re.sub(r"Python", "Coding", text)
+    print(f"Replaced text: {new_text}")
+```
+
+## Execution Steps
+
+To see these examples in action, follow these steps:
+
+1. Open your Editor: Open your favorite code editor (VS Code, PyCharm, or even a simple text editor).
+
+2. Create the File: Create a new file named **day18.py**.
+
+3. Copy and Paste: Copy the code block provided in the "Code Examples" section above and paste it into your file.
+
+4. Run the Script: Open your terminal or command prompt and navigate to the folder where you saved the file. Run it using:
+```shell
+    python day18.py
+```
+5. Observe: Check the output in your terminal to see how the patterns matched the text!
+
+## Mini Challenge: The Email Validator
+
+Now it's your turn! Write a small script that checks if a string is a valid email format.
+
+**Requirements:**
+
+1. Import the `re` module.
+
+2. Define a string called **`email`**.
+
+3. Create a pattern that checks for:
+
+* One or more alphanumeric characters.
+
+* An **`@`** symbol.
+
+* One or more alphanumeric characters.
+
+* A dot `.` followed by 2 to 4 letters (like `.com` or `.org`).
+
+4. Use **`re.match()`** to see if the email matches your pattern.
+
+**Hint:**
+
+A basic pattern to start with is: **`r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"`**
