@@ -1148,4 +1148,114 @@ Now it's your turn to practice! Your task is to create a small utility script.
 
 **Bonus:** Try calling the function using your own custom dimensions!
 
-# 📘 Day 12: 
+# 📘 Day 12: Modules in Python
+
+As your Python programs grow in size, keeping all your code in a single file becomes messy and difficult to manage. A **Module** is simply a file containing Python definitions and statements (functions, variables, or classes) that you can use in other scripts.
+
+Think of a module as a "toolbox." Instead of building every tool from scratch, you can import existing toolboxes to save time and keep your code clean, modular, and reusable.
+
+##  Key Concepts
+
+In this lesson, we will cover:
+
+* **Built-in Modules:** Using Python's pre-installed libraries (like math and random).
+
+* **Custom Modules:** Creating your own .py files and importing them.
+
+* **Import Variations:** Using import, from ... import, and as (aliasing).
+
+* **The `dir()` function:** Inspecting what is inside a module.
+
+## Code Examples
+
+#### A. Using Built-in Modules
+Python comes with a "Standard Library" full of modules ready for use.
+
+```shell
+    import math
+    import random
+    
+    # Using the math module for square roots and constants
+    print(f"The value of Pi is: {math.pi}")
+    print(f"The square root of 64 is: {math.sqrt(64)}")
+    
+    # Using the random module to generate a random integer
+    lucky_number = random.randint(1, 100)
+    print(f"Your lucky number today is: {lucky_number}")
+```
+
+#### B. Creating and Importing a Custom Module
+Imagine you have a file named calculator.py with the following content:
+```shell
+    # Save this as calculator.py
+    def add(a, b):
+        return a + b
+    
+    def multiply(a, b):
+        return a * b
+```
+
+Now, you can import it into your main script:
+```shell
+    # main.py
+    import calculator
+    
+    # Using the functions from our custom module
+    result_sum = calculator.add(10, 5)
+    result_product = calculator.multiply(10, 5)
+    
+    print(f"Sum: {result_sum}")       # Output: 15
+    print(f"Product: {result_product}") # Output: 50
+```
+
+#### C. Import Variations
+You don't always have to import the whole module. You can pick exactly what you need.
+
+```shell
+    # 1. Importing specific functions (no need to use 'module.function()')
+    from math import pi, pow
+    
+    print(pow(2, 3)) # 2 raised to the power of 3
+    
+    # 2. Renaming a module with an alias (standard practice for some libraries)
+    import statistics as stats
+    
+    data = [1, 2, 3, 4, 100]
+    print(stats.mean(data)) # Calculates the average
+```
+
+## Execution Steps
+
+To see modules in action on your computer, follow these steps:
+
+1. **Create the Module:** Open your code editor and create a file named mymodule.py. Paste a simple function inside it (like a greeting function).
+
+2. **Create the Main Script:** In the same folder, create another file named **app.py**.
+
+3. **Import:** Inside app.py, write import mymodule and call your function.
+
+4. **Run:** Open your terminal or command prompt, navigate to that folder, and type:
+```shell
+    python app.py
+```
+
+5. **Observe:** Python will look in the current directory, find mymodule.py, and execute the code you requested!
+
+## Mini Challenge: The "Geometry Expert"
+
+**Task:**
+
+1. Create a module named geometry.py.
+
+2. Inside it, write two functions:
+
+* area_of_circle(radius): Returns $\pi \times r^2$ (Use math.pi).
+
+* area_of_square(side): Returns $side \times side$.
+
+3. Create a second file named test_geo.py.
+
+4. Import your functions and print the area of a circle with a radius of 7 and a square with a side of 12.
+
+**Bonus:** Use dir(math) in your script to see all the other mathematical functions Python offers!
+
