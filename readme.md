@@ -2773,3 +2773,237 @@ To see your website in action, follow these steps:
 2. The function should take these two integers, add them together, and return a string like: `<h1>The sum of 10 and 20 is 30</h1>`.
 
 3. **Bonus:** Try to create a new HTML template for this result and use `render_template` to display the sum.
+
+# 📘 Day 27: Python with MongoDB
+
+**MongoDB** is a No-SQL database that stores data in **collections** (instead of tables) and **documents** (instead of rows). In Python, we interact with MongoDB using a library called `pymongo`.
+
+Instead of writing strict schemas, MongoDB allows you to store data dynamically. If you know how to work with Python dictionaries, you are already halfway to mastering MongoDB!
+
+## Key Concepts
+
+In this tutorial, we will cover:
+
+* **Connecting to MongoDB:** Using MongoDB Atlas (Cloud) or a local instance.
+
+* **Databases & Collections:** Creating the containers for your data.
+
+* **CRUD Operations:**
+
+* **C**reate: Inserting one or many documents.
+
+* **R**ead: Finding and filtering data.
+
+* **U**pdate: Modifying existing documents.
+
+* **D**elete: Removing data.
+
+## Code Examples
+
+First, you must install the driver:
+
+```shell
+    pip install pymongo dnspython
+```
+
+#### Complete CRUD Example (`day27.py`)
+
+```shell
+    import pymongo
+    
+    # 1. Connection
+    # If using MongoDB Atlas, replace with your connection string
+    # For local: "mongodb://localhost:27017/"
+    client = pymongo.MongoClient("mongodb://localhost:27017/")
+    
+    # 2. Create Database and Collection
+    db = client["python_course_db"]
+    students = db["students"]
+    
+    def insert_data():
+        """Demonstrates inserting single and multiple documents."""
+        # Insert One
+        student = {"name": "Alice", "age": 22, "course": "Python"}
+        result = students.insert_one(student)
+        print(f"Inserted single ID: {result.inserted_id}")
+    
+        # Insert Many
+        student_list = [
+            {"name": "Bob", "age": 25, "course": "JavaScript"},
+            {"name": "Charlie", "age": 20, "course": "Python"},
+            {"name": "David", "age": 23, "course": "Java"}
+        ]
+        results = students.insert_many(student_list)
+        print(f"Inserted IDs: {results.inserted_ids}")
+    
+    def find_data():
+        """Demonstrates querying the database."""
+        print("\n--- Finding all students ---")
+        for student in students.find():
+            print(student)
+    
+        print("\n--- Finding students taking Python ---")
+        query = {"course": "Python"}
+        python_students = students.find(query)
+        for s in python_students:
+            print(s['name'])
+    
+    def update_data():
+        """Demonstrates updating documents."""
+        query = {"name": "Alice"}
+        new_values = {"$set": {"age": 23}}
+        students.update_one(query, new_values)
+        print("\nUpdated Alice's age.")
+    
+    def delete_data():
+        """Demonstrates deleting documents."""
+        query = {"name": "David"}
+        students.delete_one(query)
+        print("\nDeleted David from the record.")
+    
+    if __name__ == "__main__":
+        # Run the operations
+        insert_data()
+        find_data()
+        update_data()
+        delete_data()
+        
+        # Check final state
+        print("\nFinal Student Count:", students.count_documents({}))
+```
+
+## Execution Steps
+
+1. Install MongoDB: Ensure you have MongoDB installed locally and running, or create a free cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+
+2. Install Library: Run `pip install pymongo` in your terminal.
+
+3. Prepare the Script: Copy the code above into a file named `day27.py`.
+
+4. Run the Script: Open your terminal and run:
+```shell
+    python day27.py
+```
+5. Verify: The script will print the results of the insertion, queries, and deletions directly to your console.
+
+## Mini Challenge
+
+**Goal:** Create a simple "Library Management" system.
+
+1. Create a new collection called `books`.
+
+2. Insert three documents representing books (include `title`, `author`, and `year`).
+
+3. Write a query to find all books written after the year **2015**.
+
+4. Update the `author` of one book by searching for its `title`.
+
+5. Delete any book of your choice using its `title`.
+
+*Hint: To find books after 2015, use the "Greater Than" operator in your query: `{"year": {"$gt": 2015}}`.*
+
+# 📘 Day 28: Working with APIs
+
+
+An **API** (Application Programming Interface) is a set of rules that allows one software application to talk to another. Think of it as a waiter in a restaurant: you (the Client) give an order (the Request) to the waiter (the API), who takes it to the kitchen (the Server) and brings your food back (the Response).
+
+In Python, we use APIs to fetch real-time data like weather, stock prices, or news, and to send data to external services.
+
+## Key Concepts
+
+
+Today, we will cover:
+
+* HTTP Requests: Understanding `GET` (retrieving data).
+
+* The `requests` Library: The industry standard for making API calls.
+
+* JSON Data: How to parse the "language of the web."
+
+* Status Codes: Learning what numbers like `200` or `404` mean.
+
+## Code Examples
+
+To follow along, you will need the `requests` library. We will use a free, public API called **JSONPlaceholder** which provides "fake" data for testing.
+
+#### Step 1: Making your first GET Request
+```shell
+    import requests
+    
+    # The URL of the API endpoint
+    url = "https://jsonplaceholder.typicode.com/posts/1"
+    
+    # Sending a GET request to the server
+    response = requests.get(url)
+    
+    # Check the status code (200 means Success!)
+    if response.status_code == 200:
+        print("Success! Data retrieved.")
+        
+        # The data comes back as JSON, we convert it to a Python Dictionary
+        data = response.json()
+        
+        # Accessing specific fields in the dictionary
+        print(f"Title: {data['title']}")
+        print(f"Body: {data['body']}")
+    else:
+        print(f"Failed to fetch data. Status code: {response.status_code}")
+```
+
+#### Step 2: Handling a List of Data
+
+Often, APIs return a list of items. Let's fetch a list of users.
+```shell
+    import requests
+    
+    url = "https://jsonplaceholder.typicode.com/users"
+    
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        users = response.json()  # This will be a list of dictionaries
+        
+        print(f"Found {len(users)} users:\n")
+        
+        # Loop through the first 3 users
+        for user in users[:3]:
+            name = user['name']
+            email = user['email']
+            city = user['address']['city']
+            print(f"- {name} lives in {city} (Email: {email})")
+    else:
+        print("Error connecting to the API.")
+```
+
+## Execution Steps
+
+To run the code above, follow these steps:
+
+1. Install the Library: APIs require an external library. Open your terminal or command prompt and type:
+```shell
+    pip install requests
+```
+2. Create the File: Create a new file named `day28_api.py`.
+
+3. Copy the Code: Copy one of the examples above and paste it into the file.
+
+4. Run the Script: In your terminal, run:
+```shell
+    python day28_api.py
+```
+5. Observe: You should see the data printed directly from the internet to your console!
+
+## Mini Challenge
+
+**The Task:** Use the **University Domains & Names API** to find information about universities in a specific country.
+
+1. Use the following URL: `http://universities.hipolabs.com/search?country=United+States`
+
+2. Change the country in the URL to your own country (e.g., `country=Canada or country=India`).
+
+3. Make a `GET` request.
+
+4. Print the names of the **first 5 universities** returned in the list.
+
+**Bonus:** Try to print the `web_pages` link for each of those 5 universities!
+
