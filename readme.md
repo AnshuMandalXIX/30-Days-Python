@@ -2446,3 +2446,330 @@ When you are done, simply type:
 7. Bonus: Delete the `my_env` folder (simulating moving to a new computer) and try to reinstall everything using the command: `pip install -r requirements.txt`.
 
 **Pro Tip:** Always add your virtual environment folder name (e.g., `venv/`) to your `.gitignore` file so you don't upload thousands of library files to GitHub!
+
+# 📘 Day 24: Statistics in Python
+
+Data is only useful if we can interpret it. Statistics provides us with the tools to summarize, organize, and analyze data to find patterns and trends. While Python allows us to perform these calculations manually, its built-in `statistics` module makes the process incredibly efficient and readable.
+
+## Key Concepts
+
+In this lesson, we will cover the core measures used to describe datasets:
+
+* **Mean**: The mathematical average of a dataset.
+
+* **Median:** The middle value when the data is sorted.
+
+* **Mode:** The most frequent value in a dataset.
+
+* **Variance:** A measure of how spread out the numbers are from the mean.
+
+* **Standard Deviation:** The square root of variance; it represents the typical distance of data points from the mean.
+
+## Code Examples
+
+We will use Python's built-in `statistics` module. No external installations are required for this lesson!
+
+```shell
+    import statistics
+    
+    # A list representing the daily temperatures in a city over 10 days
+    data = [22, 24, 21, 22, 25, 29, 22, 23, 24, 28]
+    
+    def analyze_data(dataset):
+        print(f"Dataset: {dataset}")
+        print("-" * 30)
+    
+        # 1. Calculating the Mean (Average)
+        mean_val = statistics.mean(dataset)
+        print(f"Mean (Average): {mean_val}")
+    
+        # 2. Calculating the Median (Middle value)
+        # If the number of data points is even, it averages the two middle numbers
+        median_val = statistics.median(dataset)
+        print(f"Median: {median_val}")
+    
+        # 3. Calculating the Mode (Most frequent value)
+        try:
+            mode_val = statistics.mode(dataset)
+            print(f"Mode: {mode_val}")
+        except statistics.StatisticsError:
+            print("Mode: No unique mode found")
+    
+        # 4. Calculating Variance
+        # High variance means the data is widely spread; low variance means it's close to the mean
+        variance_val = statistics.variance(dataset)
+        print(f"Variance: {round(variance_val, 2)}")
+    
+        # 5. Calculating Standard Deviation
+        # This is often more intuitive than variance as it's in the same units as the data
+        stdev_val = statistics.stdev(dataset)
+        print(f"Standard Deviation: {round(stdev_val, 2)}")
+    
+    if __name__ == "__main__":
+        analyze_data(data)
+```
+
+## Execution Steps
+
+Follow these steps to run the code on your local machine:
+
+1. Install Python: Ensure you have Python installed (version 3.4 or higher includes the `statistics` module).
+
+2. Create the File: Open your favorite code editor (VS Code, PyCharm, or even Notepad) and create a new file named `day24_statistics.py`.
+
+3. Copy the Code: Copy the Python code provided above and paste it into your file.
+
+4. Run the Script: Open your terminal or command prompt, navigate to the folder where you saved the file, and type:
+```shell
+    python day24_statistics.py
+```
+5. Observe the Output: You will see the calculated statistical measures for the temperature dataset printed in your console.
+
+## Mini Challenge
+
+Now it's your turn to apply what you've learned!
+
+**The Task:** Imagine you are a teacher. You have a list of exam scores: `[85, 90, 78, 92, 85, 76, 98, 85, 89, 72, 95]`.
+
+Write a script that:
+
+1. Calculates the **Mean** score of the class.
+
+2. Finds the **Range** of the scores (the difference between the Maximum and Minimum value). *Hint: Use Python's built-in `max()` and `min()` functions.*
+
+3. Determines if the **Median** is higher or lower than the **Mean**.
+
+**Bonus:** Try adding a new score of `100` to the list and see how it affects the Standard Deviation!
+
+# 📘 Day 25: Master Data Analysis with Pandas
+
+**Pandas** is an open-source library providing high-performance, easy-to-use data structures and data analysis tools. If you think of Python as a Swiss Army knife, Pandas is the specialized blade for data. It allows you to read large datasets, clean messy data, calculate statistics, and visualize trends—all with just a few lines of code.
+
+## Key Concepts
+
+In this lesson, we will cover:
+
+* **Data Structures:** Understanding `Series` (1D) and `DataFrame` (2D).
+
+* **Reading Data:** How to load CSV files into Pandas.
+
+* **Data Exploration:** Viewing headers, statistics, and specific columns.
+
+* **Filtering:** Extracting rows based on specific conditions.
+
+* **Data Cleaning:** Creating new columns and basic math.
+
+## Code Examples
+
+First, you need to install Pandas. Run this in your terminal:
+
+```shell
+    pip install pandas
+```
+
+Now, let’s explore the code.
+
+```shell
+    import pandas as pd
+    
+    # 1. Creating Data from a Dictionary
+    data = {
+        "Name": ["Alice", "Bob", "Charlie", "David", "Eve"],
+        "Age": [25, 30, 35, 40, 22],
+        "City": ["New York", "London", "Paris", "Berlin", "Tokyo"],
+        "Score": [85, 92, 78, 88, 95]
+    }
+    
+    # Create a DataFrame (The core Pandas object)
+    df = pd.DataFrame(data)
+    
+    # 2. Basic Exploration
+    print("--- Full DataFrame ---")
+    print(df)
+    
+    print("\n--- The First 3 Rows ---")
+    print(df.head(3))
+    
+    print("\n--- Summary Statistics ---")
+    print(df.describe()) # Shows mean, min, max, etc.
+    
+    # 3. Selecting Columns
+    print("\n--- Column Selection (Names) ---")
+    print(df["Name"])
+    
+    # 4. Filtering Data
+    # Let's find people older than 28
+    print("\n--- Filtered Data (Age > 28) ---")
+    older_than_28 = df[df["Age"] > 28]
+    print(older_than_28)
+    
+    # 5. Adding a New Column
+    # Let's add a column that shows if a student passed (Score > 80)
+    df["Passed"] = df["Score"] > 80
+    
+    print("\n--- Updated DataFrame with 'Passed' Column ---")
+    print(df)
+    
+    # 6. Saving to CSV
+    # This creates a file named 'students.csv' without the index numbers
+    df.to_csv("students.csv", index=False)
+    print("\nData saved to 'students.csv' successfully!")
+```
+
+## Execution Steps
+
+1. Install Pandas: Ensure you have Pandas installed by running `pip install pandas` in your command prompt or terminal.
+
+2. Create the Script: Create a new file named `day25_pandas.py`.
+
+3. Copy and Paste: Copy the code example above and paste it into your script.
+
+4. Run the Script: Open your terminal, navigate to the folder where the file is saved, and run:
+```shell
+    python day25_pandas.py
+```
+
+5. Check the Output: You will see the printed tables in your terminal, and a new file called `students.csv` will appear in your project folder.
+
+## Mini Challenge: The "City Explorer"
+
+Ready to put your skills to the test? Try this:
+
+1. Add a new person to the `data` dictionary in the code above: **"Frank", 27, "Sydney", 82.**
+
+2. Filter the DataFrame to show only people who live in "London" or "Paris". (Hint: Use `df[df['City'].isin(['London', 'Paris'])]`).
+
+3. Calculate the **average (mean)** score of all students. (Hint: Use `df['Score'].mean()`).
+
+*Tip: If you get stuck, remember that `df['ColumnName']` acts like a list that you can perform math on!*
+
+# 📘 Day 26: Python Web - Introduction to Flask
+
+Python is one of the most popular languages for web development. While Python itself doesn't "speak" HTML or HTTP natively, we use **Web Frameworks** to bridge the gap.
+
+A web framework is a collection of modules and libraries that allow you to create web applications without worrying about low-level details like protocols or socket management. Today, we will focus on **Flask**, a "micro-framework" that is lightweight, easy to set up, and perfect for beginners.
+
+## Key Concepts
+
+In this tutorial, we will cover:
+
+* **Routing:** Mapping a URL (e.g., `/about`) to a specific Python function.
+
+* **Templates:** Using HTML files to display content to the user.
+
+* **Request & Response:** How a browser asks for data and how Python sends it back.
+
+* **Dynamic Content:** Passing variables from Python into your HTML.
+
+## Code Examples
+
+First, you need to install Flask. Open your terminal and run:
+
+```shell
+    pip install Flask
+```
+
+Now, let's create a simple web application. Create a folder named `my_web_app`, and inside it, create a file named `app.py`.
+
+#### Example 1: The Hello World App (`app.py`)
+
+```shell
+    from flask import Flask, render_template
+    
+    # Initialize the Flask application
+    app = Flask(__name__)
+    
+    # The 'route' decorator tells Flask which URL should trigger our function
+    @app.route('/')
+    def home():
+        """
+        This function runs when a user visits the root URL (127.0.0.1:5000/)
+        """
+        return "<h1>Welcome to Day 26!</h1><p>Python Web is amazing.</p>"
+    
+    @app.route('/user/<name>')
+    def greet_user(name):
+        """
+        This is a dynamic route. The <name> part is passed as an argument.
+        """
+        return f"<h2>Hello, {name}!</h2><p>Welcome to your profile page.</p>"
+    
+    if __name__ == '__main__':
+        # Run the application in debug mode
+        # Debug mode allows the server to reload automatically when you save changes
+        app.run(debug=True)
+```
+
+#### Example 2: Using Templates
+Returning raw HTML strings is messy. Instead, we use Templates. Create a folder named `templates` in the same directory as `app.py`. Inside `templates`, create `index.html`.
+
+**`templates/index.html`**
+
+```shell
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Day 26 Web App</title>
+    </head>
+    <body>
+        <h1>Learning Python Web</h1>
+        <p>The current topic is: {{ Python Hero }}</p>
+        <ul>
+            {% for item in features %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </body>
+    </html>
+```
+
+**Updated `app.py`**
+
+```shell
+    @app.route('/dashboard')
+    def dashboard():
+        # Data we want to send to our HTML page
+        data = {
+            "topic_name": "Flask Templates",
+            "features": ["Easy Routing", "Jinja2 Engine", "Lightweight"]
+        }
+        # render_template looks into the /templates folder automatically
+        return render_template('index.html', **data)
+```
+
+## Execution Steps
+
+To see your website in action, follow these steps:
+
+1. **Prepare the folder structure:**
+```shell
+    my_web_app/
+    ├── app.py
+    └── templates/
+        └── index.html
+```
+
+2. **Run the script:** Open your terminal or command prompt, navigate to the `my_web_app` folder, and type:
+```shell
+    python app.py
+```
+
+3. **Access the web:** You will see a message saying `Running on http://127.0.0.1:5000`.
+
+4. **Open your browser:**
+
+* Visit `http://127.0.0.1:5000/` to see the Home page.
+
+* Visit `http://127.0.0.1:5000/user/YourName` to see the dynamic route.
+
+* Visit `http://127.0.0.1:5000/dashboard` to see the HTML template.
+
+## Mini Challenge
+
+**The Task:** Create a "Calculator" route.
+
+1. Create a new route in your `app.py` called `/add/<int:num1>/<int:num2>`.
+
+2. The function should take these two integers, add them together, and return a string like: `<h1>The sum of 10 and 20 is 30</h1>`.
+
+3. **Bonus:** Try to create a new HTML template for this result and use `render_template` to display the sum.
