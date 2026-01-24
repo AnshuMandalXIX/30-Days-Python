@@ -2904,7 +2904,6 @@ First, you must install the driver:
 
 # 📘 Day 28: Working with APIs
 
-
 An **API** (Application Programming Interface) is a set of rules that allows one software application to talk to another. Think of it as a waiter in a restaurant: you (the Client) give an order (the Request) to the waiter (the API), who takes it to the kitchen (the Server) and brings your food back (the Response).
 
 In Python, we use APIs to fetch real-time data like weather, stock prices, or news, and to send data to external services.
@@ -3007,3 +3006,224 @@ To run the code above, follow these steps:
 
 **Bonus:** Try to print the `web_pages` link for each of those 5 universities!
 
+# 📘 Day 29: Building APIs with Flask
+
+An API acts as a waiter in a restaurant. You (the client) make a request (order), and the API (waiter) takes that request to the kitchen (server/database) and brings back the response (food).
+
+In Python, the most beginner-friendly way to build an API is using **Flask**. Flask is a "micro-framework" because it is lightweight, easy to set up, and perfect for learning how the web works. We will focus on creating a **RESTful API** that sends and receives data in **JSON** format.
+
+## Key Concepts
+
+* Routing: Mapping a URL (like `/api/data`) to a Python function.
+
+* HTTP Methods: Understanding `GET` (retrieving data) and `POST` (sending data).
+
+* JSON Handling: Sending data back in a format that web apps understand.
+
+* Request Parsing: How to read data sent by a user.
+
+## Code Examples
+
+First, you need to install Flask. Open your terminal and run:
+
+`pip install Flask`
+
+Now, let's build a "Digital Library" API.
+
+```shell
+    from flask import Flask, jsonify, request
+    
+    app = Flask(__name__)
+    
+    # Sample data: In a real app, this would come from a database
+    books = [
+        {"id": 1, "title": "1984", "author": "George Orwell"},
+        {"id": 2, "title": "The Hobbit", "author": "J.R.R. Tolkien"}
+    ]
+    
+    # Route 1: A simple Welcome message (GET)
+    @app.route('/', methods=['GET'])
+    def home():
+        return jsonify({"message": "Welcome to the Day 29 Library API!"})
+    
+    # Route 2: Get all books (GET)
+    @app.route('/api/books', methods=['GET'])
+    def get_books():
+        # jsonify converts Python lists/dicts into JSON format
+        return jsonify({"books": books, "count": len(books)})
+    
+    # Route 3: Add a new book (POST)
+    @app.route('/api/books', methods=['POST'])
+    def add_book():
+        # request.get_json() gets the data sent by the user
+        new_data = request.get_json()
+        
+        # Basic validation
+        if not new_data or 'title' not in new_data:
+            return jsonify({"error": "Missing title"}), 400
+        
+        new_book = {
+            "id": len(books) + 1,
+            "title": new_data['title'],
+            "author": new_data.get('author', 'Unknown')
+        }
+        
+        books.append(new_book)
+        return jsonify(new_book), 201
+    
+    if __name__ == '__main__':
+        # run the app in debug mode so it restarts when you save changes
+        app.run(debug=True, port=5000)
+```
+
+## Execution Steps
+
+1. Save the file: Copy the code above and save it as `day29_api.py`.
+
+2. Run the script: Open your terminal/command prompt and run:
+```shell
+    python day29_api.py
+```
+
+3. View in Browser: Open your browser and go to `http://127.0.0.1:5000/api/books`. You should see your list of books in JSON format.
+
+4. Testing the POST request: Since browsers only do `GET` requests by default, you can test adding a book using a tool like **Postman** or the `curl` command in your terminal:
+```shell
+    curl -X POST -H "Content-Type: application/json" -d '{"title":"Brave New World", "author":"Aldous Huxley"}' http://127.0.0.1:5000/api/books
+```
+
+## Mini Challenge
+
+**The Task:** Add a new route to the API that allows a user to get a **single** book by its ID.
+
+* **Hint:** You can define a route with a variable like this: `@app.route('/api/books/<int:book_id>', methods=['GET'])`.
+
+* **Logic:** Inside the function, use a loop or a list comprehension to find the book in the `books` list that matches the `book_id`. If it's not found, return a `404` error message.
+
+**Example Output:**
+Visiting `http://127.0.0.1:5000/api/books/1` should return `{"id": 1, "title": "1984", "author": "George Orwell"}`.
+
+# 📘 Day 30: The Grand Summary – Bringing it All Together
+
+Congratulations! You have reached **Day 30** of the "30 Days of Python" course. Over the past month, you have transformed from someone curious about code into a programmer capable of building logic, handling data, and structuring applications.
+
+Today’s session is a holistic review. We aren't introducing brand-new syntax; instead, we are synthesizing the most important pillars of Python into a single, cohesive project. This summary ensures you have the "Big Picture" before you head off to build your own professional projects.
+
+## Key Concepts
+
+Throughout this journey, we have mastered these core pillars:
+
+* **Data Structures:** Using Lists, Dictionaries, Sets, and Tuples to organize information.
+
+* **Control Flow:** Using `if` statements, `for` loops, and `while` loops to guide program logic.
+
+* **Functions & Scope:** Writing reusable code and understanding where variables live.
+
+* **Error Handling:** Using `try/except` blocks to build "unbreakable" programs.
+
+* **Object-Oriented Programming (OOP):** Creating Classes to model real-world entities.
+
+* **File I/O & Modules:** Reading/writing data and importing external libraries.
+
+## Code Examples: The "Project Manager" Script
+
+The following script combines classes, list comprehensions, error handling, and file operations into one final demonstration.
+
+```shell
+    """
+    Day 30 Summary: Task Management System
+    Demonstrates: Classes, File I/O, Error Handling, and List Comprehension.
+    """
+    
+    import json
+    
+    class TaskManager:
+        def __init__(self, filename="tasks.json"):
+            self.filename = filename
+            self.tasks = self.load_tasks()
+    
+        def load_tasks(self):
+            """Reads tasks from a file, handling potential errors."""
+            try:
+                with open(self.filename, "r") as file:
+                    return json.load(file)
+            except (FileNotFoundError, json.JSONDecodeError):
+                # Return an empty list if file doesn't exist yet
+                return []
+    
+        def add_task(self, task_name):
+            """Adds a task to the list and saves it."""
+            new_task = {"name": task_name, "completed": False}
+            self.tasks.append(new_task)
+            self.save_tasks()
+            print(f"Task '{task_name}' added successfully!")
+    
+        def save_tasks(self):
+            """Writes the current task list to a JSON file."""
+            with open(self.filename, "w") as file:
+                json.dump(self.tasks, file, indent=4)
+    
+        def show_pending_tasks(self):
+            """Uses list comprehension to filter incomplete tasks."""
+            pending = [t['name'] for t in self.tasks if not t['completed']]
+            
+            if not pending:
+                print("No pending tasks. Great job!")
+            else:
+                print(f"Pending Tasks: {', '.join(pending)}")
+    
+    def main():
+        # Instantiate the class
+        manager = TaskManager()
+    
+        print("--- Welcome to your Day 30 Python Summary ---")
+        
+        while True:
+            print("\nOptions: 1. Add Task  2. Show Pending  3. Exit")
+            choice = input("Select an option (1-3): ")
+    
+            if choice == '1':
+                name = input("Enter task name: ").strip()
+                if name:
+                    manager.add_task(name)
+            elif choice == '2':
+                manager.show_pending_tasks()
+            elif choice == '3':
+                print("Congratulations on completing 30 Days of Python!")
+                break
+            else:
+                print("Invalid choice, please try again.")
+    
+    if __name__ == "__main__":
+        main()
+```
+
+## Execution Steps
+
+To run this final summary project, follow these steps:
+
+1. Open your IDE: Open VS Code, PyCharm, or your preferred text editor.
+
+2. Create the File: Create a new file named `day30.py`.
+
+3. Copy the Code: Paste the code block provided above into your file.
+
+4. Run the Script: Open your terminal or command prompt and type:
+```shell
+    python day30.py
+```
+
+5. Interact: Add a few tasks (e.g., "Build a Web App", "Learn Django"). Note how the program creates a `tasks.json` file in your folder automatically!
+
+## Mini Challenge
+
+Your final challenge is to extend the `TaskManager` class:
+
+1. **Mark as Complete:** Add a method called `complete_task(task_name)` that finds a task in the list and sets its `"completed"` status to `True`.
+
+2. **Update the Menu:** Add a 4th option to the `main()` loop that allows the user to mark a task as finished.
+
+3. **Reflect:** Think about how much easier this code is to read today compared to Day 1!
+
+# Final Encouragement: 
+#### Python is a journey, not a destination. You now have the tools to build web apps, analyze data, or automate your daily tasks. Keep coding every day!
