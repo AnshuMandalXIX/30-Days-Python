@@ -1373,3 +1373,223 @@ Now it's your turn to practice!
 3. Print the resulting list.
 
 *Hint: Your final list should look like [9, 30, 6].*
+
+# 📘 Day 14: Higher-Order Functions
+
+In Python, functions are treated as **First-Class Citizens**. This means functions can be treated just like any other object (like integers or strings).
+
+A **Higher-Order Function** is a function that does at least one of the following:
+
+* Takes one or more functions as arguments.
+
+* Returns a function as its result.
+
+This allows us to create powerful abstractions, such as "wrappers" or "filters," that can be applied to many different parts of our logic.
+
+## Key Concepts
+
+* **Functions as Parameters:** Passing one function into another.
+
+* **Nested Functions:** Defining a function inside another function.
+
+* **Functions as Return Values:** A function generating and "giving back" a new function.
+
+* **Built-in Higher-Order Functions:**
+
+* **map():** Applying a transformation to every item in an iterable.
+
+* **filter():** Filtering items out of an iterable based on a condition.
+
+* **reduce():** Rolling a list of values into a single cumulative result.
+
+## Code Examples
+
+#### A. Passing a Function as an Argument
+
+```shell
+    def uppercase(text):
+        return text.upper()
+    
+    def greet(func):
+        # This is a higher-order function because it takes 'func' as a parameter
+        greeting = func("Hello, I am learning Python!")
+        print(greeting)
+    
+    # Note: We pass 'uppercase' without parentheses so we pass the function itself
+    greet(uppercase)
+```
+
+#### B. The Map and Filter Functions
+
+```shell
+    numbers = [1, 2, 3, 4, 5, 6]
+    
+    # 1. Map: Square every number in the list
+    # map(function, iterable)
+    squares = list(map(lambda x: x**2, numbers))
+    print(f"Squares: {squares}")
+    
+    # 2. Filter: Only keep even numbers
+    # filter(function, iterable)
+    evens = list(filter(lambda x: x % 2 == 0, numbers))
+    print(f"Evens: {evens}")
+```
+
+#### C. Function Returning a Function (Closures)
+
+```shell
+    def make_multiplier(n):
+        """Returns a function that multiplies its input by n."""
+        def multiplier(x):
+            return x * n
+        return multiplier
+    
+    # Create a function that doubles numbers
+    double = make_multiplier(2)
+    # Create a function that triples numbers
+    triple = make_multiplier(3)
+    
+    print(f"Double 5: {double(5)}")  # Output: 10
+    print(f"Triple 5: {triple(5)}")  # Output: 15
+```
+
+## Execution Steps
+
+1. **Install Python:** Ensure you have Python installed on your machine.
+
+2. **Create a File:** Open your favorite code editor (VS Code, PyCharm, or even a text editor) and create a new file named **day14.py**.
+
+3. **Copy and Paste:** Copy the code examples provided above into your file.
+
+4. **Run the Script:** Open your terminal or command prompt, navigate to the folder where you saved the file, and run:
+
+```shell
+    python day14.py
+```
+5. **Observe:** Check the output in your terminal to see how the mapping, filtering, and function generation work.
+
+## Mini Challenge
+
+**The Task:**
+
+You are given a list of names: **names = ["Alice", "Bob", "Charlie", "David", "Eve"].**
+
+1. Use **filter()** to create a new list containing only names that have more than 4 characters.
+
+2. Use **map()** to convert that filtered list to all uppercase letters.
+
+3. Print the final result.
+
+*Hint: You can chain them together or do it in two steps!*
+
+# 📘 Day 15: Python Errors and Exception Types
+
+When you write code that violates the rules of the Python language, the interpreter raises an error. These generally fall into two categories:
+
+1.  **Syntax Errors:** The "grammar" of your code is wrong (e.g., a missing colon).
+
+2. **Exceptions:** The syntax is correct, but something went wrong during execution (e.g., trying to divide by zero).
+
+Today, we will focus on identifying the most common built-in exceptions so you can recognize them on sight.
+
+## Key Concepts
+
+In this tutorial, we will cover the following common error types:
+
+* **SyntaxError**: Invalid syntax.
+
+* **NameError**: Using a variable that hasn't been defined.
+
+* **TypeError**: Performing an operation on an incorrect data type.
+
+* **IndexError**: Accessing an index that is out of range in a list.
+
+* **KeyError**: Accessing a dictionary key that doesn't exist.
+
+* **AttributeError**: Calling a method that doesn't exist for that object.
+
+* **ZeroDivisionError**: Dividing a number by zero.
+
+## Code Examples
+
+The following script demonstrates how these errors are triggered.
+
+```shell
+    # Day 15: Python Errors and Exceptions
+    
+    # 1. SyntaxError: Occurs when the code is not formatted correctly.
+    # Uncomment the line below to see: it's missing a closing quote.
+    # print("Hello World) 
+    
+    # 2. NameError: Occurs when a variable is used before it's defined.
+    try:
+        print(my_variable)
+    except NameError as e:
+        print(f"NameError caught: {e}")
+    
+    # 3. TypeError: Occurs when an operation is applied to an object of inappropriate type.
+    try:
+        # Adding an integer and a string
+        result = 10 + "20"
+    except TypeError as e:
+        print(f"TypeError caught: {e}")
+    
+    # 4. IndexError: Occurs when trying to access an index outside a list's range.
+    numbers = [1, 2, 3]
+    try:
+        print(numbers[5])
+    except IndexError as e:
+        print(f"IndexError caught: {e}")
+    
+    # 5. KeyError: Occurs when a dictionary doesn't have the requested key.
+    user = {"name": "Asabeneh", "age": 250}
+    try:
+        print(user["country"])
+    except KeyError as e:
+        print(f"KeyError caught: Key {e} not found")
+    
+    # 6. AttributeError: Occurs when an invalid attribute/method is called.
+    import math
+    try:
+        # math has 'sqrt', but not 'square_root'
+        math.square_root(25)
+    except AttributeError as e:
+        print(f"AttributeError caught: {e}")
+    
+    # 7. ZeroDivisionError: Occurs when dividing by zero.
+    try:
+        division = 10 / 0
+    except ZeroDivisionError as e:
+        print(f"ZeroDivisionError caught: {e}")
+```
+
+## Execution Steps
+
+1. Install Python: Ensure you have Python installed on your machine.
+
+2. Create the file: Open your text editor (VS Code, Sublime, etc.) and create a new file named **day15.py**.
+
+3. Copy the code: Copy the code block above and paste it into the file.
+
+4. Run the script: Open your terminal or command prompt and navigate to the folder where the file is saved. Type:
+
+```shell
+    python day15.py
+```
+5. Observe: Note how we used **try...except** blocks. This allows the script to continue running even after an error occurs. Without these blocks, the program would stop at the very first error!
+
+## Mini Challenge
+
+**Goal:** Write a small script that intentionally triggers three different error types and prints a custom message for each.
+
+1. Create a list of 3 items and try to print the 10th item.
+
+2. Try to convert a string that contains letters (e.g., "Apple") into an integer using **int()**. (This will trigger a **ValueError**).
+
+3. Try to multiply a string by another string.
+
+**Checklist:**
+
+* [ ] Did you identify which error type each action caused?
+
+* [ ] Did you use try...except to keep your program from crashing?
