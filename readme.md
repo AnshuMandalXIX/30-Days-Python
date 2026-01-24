@@ -2215,3 +2215,234 @@ Create a class named `Smartphone`. It should meet the following requirements:
 4. **Test:** Create an instance of a "Google Pixel 7," call the `call()` method, and then `charge()` it.
 
 *Stuck? Remember that inside your methods, you must use `self.attribute_name` to access or change the object's data!*
+
+# 📘 Day 22: Web Scraping in Python
+
+**Web Scraping** is the process of automatically fetching data from websites. While an API (Application Programming Interface) is the "official" way to get data from a service, not every website provides one. In those cases, we use libraries to download the HTML of a webpage and parse it to find the specific information we need (like prices, headlines, or weather data).
+
+**> Note on Ethics:** Always check a website's `robots.txt` file (e.g., `google.com/robots.txt`) and terms of service before scraping. Avoid overwhelming servers with too many requests in a short time.
+
+## Key Concepts
+
+In this tutorial, we will cover:
+
+* **The Requests Library:** To fetch the HTML content of a webpage.
+
+* **BeautifulSoup4:** To parse the HTML and navigate the "DOM" (Document Object Model).
+
+* **Tags, IDs, and Classes:** How to identify specific elements on a page.
+
+* **Data Extraction:** Extracting text and links from HTML elements.
+
+## Code Examples
+
+First, you will need to install the necessary libraries. Run this in your terminal:
+
+```shell
+pip install requests beautifulsoup4
+```
+Now, let's create a script that scrapes a sample website designed for practicing scraping.
+
+#### Example: Scraping Quotes and Authors
+```shell
+    import requests
+    from bs4 import BeautifulSoup
+    
+    # Step 1: Define the URL to scrape
+    URL = "http://quotes.toscrape.com"
+    
+    def scrape_quotes():
+        # Step 2: Send a GET request to the website
+        response = requests.get(URL)
+        
+        # Check if the request was successful (Status Code 200)
+        if response.status_code == 200:
+            # Step 3: Parse the HTML content using BeautifulSoup
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Step 4: Find all elements containing quotes
+            # On this site, each quote is inside a <div> with the class 'quote'
+            quote_elements = soup.find_all('div', class_='quote')
+            
+            print(f"--- Top Quotes from {URL} ---\n")
+            
+            for element in quote_elements:
+                # Extract the text of the quote (found in a <span> with class 'text')
+                text = element.find('span', class_='text').get_text()
+                
+                # Extract the author (found in a <small> tag with class 'author')
+                author = element.find('small', class_='author').get_text()
+                
+                print(f"Quote: {text}")
+                print(f"By: {author}\n")
+        else:
+            print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
+    
+    if __name__ == "__main__":
+        scrape_quotes()
+```
+
+## Execution Steps
+
+1. Install Libraries: Open your terminal or command prompt and run `pip install requests beautifulsoup4`.
+
+2. Create the File: Create a new file named `day22_scraping.py`.
+
+3. Copy the Code: Paste the code block provided above into your file.
+
+4. Run the Script: In your terminal, navigate to the folder where the file is saved and run:
+```shell
+    python day22_scraping.py
+```
+5. Observe Output: You should see a list of quotes and their authors printed directly in your console!
+
+## Mini Challenge
+
+**The Task:** Modify the script above to also extract the **Tags** associated with each quote.
+
+* **Hint:** On the website `http://quotes.toscrape.com`, the tags are located inside a `div` with the class `tags`. Each individual tag is an `<a>` element with the class `tag`.
+
+* **Goal:** Print the quote, the author, and a comma-separated list of tags (e.g., "Tags: change, deep-thoughts, thinking").
+
+**Checklist for success:**
+
+[ ] Find the tags container within each `quote_element`.
+
+[ ] Use `find_all` to get all tags for that specific quote.
+
+[ ] Use a list comprehension or a loop to collect the text from each tag.
+
+# 📘 Day 23: Virtual Environments in Python
+
+As you build more Python projects, you will start using third-party packages (like `pandas`, `requests`, or `flask`). However, different projects might require different versions of the same package.
+
+If you install everything globally on your computer, you will eventually run into "dependency hell," where updating a package for Project A breaks Project B. A **Virtual Environment** is an isolated folder that contains its own Python installation and its own set of libraries. It ensures that your project remains portable and conflict-free.
+
+## Key Concepts
+
+In this lesson, we will cover:
+
+* **What a Virtual Environment is:** Understanding isolation.
+
+* **The `venv` module:** The built-in Python tool for creating environments.
+
+* **Activation:** How to tell your terminal to use the isolated environment.
+
+* **Dependency Management:** Using `pip freeze` and `requirements.txt`.
+
+* **Deactivation:** Returning to your global Python system.
+
+## Execution Steps (The Workflow)
+
+Unlike previous days, today’s lesson happens mostly in your **Terminal** or **Command Prompt**. Follow these steps to set up your first environment.
+
+#### Step 1: Create a Project Directory
+Open your terminal and create a folder for today.
+
+```shell
+    mkdir day_23_project
+    cd day_23_project
+```
+
+#### Step 2: Create the Virtual Environment
+We use the `venv` module. The second `venv` in the command below is the name of the folder we are creating (you can name it `env` or `.venv` too).
+
+```shell
+    # Windows
+    python -m venv venv
+    
+    # macOS / Linux
+    python3 -m venv venv
+```
+
+#### Step 3: Activate the Environment
+You must "enter" the environment to use it.
+
+```shell
+    # Windows (Command Prompt)
+    venv\Scripts\activate
+    
+    # Windows (PowerShell)
+    .\venv\Scripts\Activate.ps1
+    
+    # macOS / Linux
+    source venv/bin/activate
+```
+
+*Note: Once activated, you will see (venv) appear at the start of your command prompt line.*
+
+## Code Examples
+
+Now that your environment is active, let's install a package and write a script.
+
+#### Installing a Package
+Let's install the `requests` library, which is not part of the standard Python library.
+
+```shell
+    pip install requests
+```
+
+#### Creating the Script (`main.py`)
+Create a file named `main.py` inside your `day_23_project` folder and add the following code:
+
+```shell
+    import requests
+    
+    def fetch_data():
+        """
+        Fetches data from a public API to demonstrate 
+        that our virtual environment package is working.
+        """
+        url = "https://jsonplaceholder.typicode.com/todos/1"
+        
+        try:
+            # We can use 'requests' because it is installed in our venv
+            response = requests.get(url)
+            response.raise_for_status()
+            
+            data = response.json()
+            print("Successfully fetched data using the 'requests' library!")
+            print(f"Title: {data.get('title')}")
+            
+        except ImportError:
+            print("Error: 'requests' library not found. Is your venv active?")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    
+    if __name__ == "__main__":
+        fetch_data()
+```
+
+#### Saving Dependencies
+To allow others to recreate your environment, we export a list of installed packages.
+
+```shell
+    pip freeze > requirements.txt
+```
+
+#### Deactivating
+When you are done, simply type:
+
+```shell
+    deactivate
+```
+
+## Mini Challenge
+
+**The Task:** Create a fresh environment for a "Weather App" and manage its dependencies.
+
+1. Create a new folder called `weather_challenge`.
+
+2. Create a virtual environment inside it named `my_env`.
+
+3. Activate the environment.
+
+4. Install two packages: `requests` and `python-dotenv`.
+
+5. Run `pip freeze` and verify that both packages (and their dependencies) are listed.
+
+6. Create a `requirements.txt` file.
+
+7. Bonus: Delete the `my_env` folder (simulating moving to a new computer) and try to reinstall everything using the command: `pip install -r requirements.txt`.
+
+**Pro Tip:** Always add your virtual environment folder name (e.g., `venv/`) to your `.gitignore` file so you don't upload thousands of library files to GitHub!
