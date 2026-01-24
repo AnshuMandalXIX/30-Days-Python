@@ -1889,3 +1889,227 @@ Now it's your turn! Write a small script that checks if a string is a valid emai
 **Hint:**
 
 A basic pattern to start with is: **`r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"`**
+
+# 📘 Day 19: File Handling in Python
+
+**File Handling** is the ability of a program to read data from a file and write data into a file. This is crucial for logging information, saving user settings, or processing large datasets. In Python, we don't need to import external libraries for basic file operations; the functionality is built directly into the language using the **open()** function.
+
+## Key Concepts
+
+In this lesson, we will cover the following:
+
+* **Opening Files:** Using the `open()` function.
+
+* **File Modes:** Understanding 'r' (read), 'w' (write), 'a' (append), and 'x' (create).
+
+* **The Context Manager:** Using the `with` keyword to ensure files are closed automatically.
+
+* **Reading Content:** Methods like `.read()`, `.readline()`, and `.readlines()`.
+
+* **Writing Content:** How to create new files or add to existing ones.
+
+## Code Examples
+
+#### Writing and Appending to a File
+When writing, 'w' overwrites the file, while 'a' adds to the end of it.
+
+```shell
+    # Day 19: File Handling - Writing
+    file_path = "example.txt"
+    
+    # 'with' acts as a context manager. It automatically closes the file for us.
+    # 'w' mode: Write (Overwrites existing content or creates a new file)
+    with open(file_path, "w") as file:
+        file.write("Hello! This is Day 19 of Python.\n")
+        file.write("Today we are learning about files.\n")
+    
+    print(f"Successfully created '{file_path}'")
+    
+    # 'a' mode: Append (Adds to the end of the file without deleting content)
+    with open(file_path, "a") as file:
+        file.write("This line was added using the append mode!\n")
+    
+    print("Content appended successfully.")
+```
+
+#### Reading from a File
+There are several ways to extract data from a file.
+
+```shell
+    # Day 19: File Handling - Reading
+    file_path = "example.txt"
+    
+    print("\n--- Reading the entire file ---")
+    with open(file_path, "r") as file:
+        content = file.read()
+        print(content)
+    
+    print("--- Reading line by line using a loop ---")
+    with open(file_path, "r") as file:
+        for line in file:
+            # strip() removes the extra newline character from the file
+            print(f"Line: {line.strip()}")
+```
+
+#### Handling CSV Files (Optional but Useful)
+Python has a built-in module for structured data like spreadsheets.
+
+```shell
+    import csv
+    
+    # Writing to a CSV file
+    with open("students.csv", "w", newline="") as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(["Name", "Course", "Progress"])
+        writer.writerow(["Alice", "Python", "Day 19"])
+        writer.writerow(["Bob", "Python", "Day 5"])
+    
+    print("\n'students.csv' has been created.")
+```
+
+## Execution Steps
+
+To see this in action on your machine:
+
+1. Create the script: Open your code editor (VS Code, PyCharm, etc.) and create a new file named **day19.py**.
+
+2. Paste the code: Copy the code examples above into your file.
+
+3. Run the script: Open your terminal or command prompt and run:
+
+```shell
+    python day19.py
+```
+4. Verify: Check your folder. You should see two new files: **example.txt** and **students.csv**. You can open these with any text editor (like Notepad or TextEdit) to see the results.
+
+## Mini Challenge
+
+**The Task: "The Personal Logger"**
+
+Write a Python script that does the following:
+
+1. Asks the user for their name and their "Goal of the Day" using the `input()` function.
+
+2. Saves this information into a file named `log.txt`.
+
+3. Ensure that every time you run the script, the new entry is appended to the file, not overwriting the previous ones.
+
+4. Add a timestamp to each entry (Hint: use `import datetime`).
+
+**Example output in `log.txt`:**
+`2023-10-27 10:00:00 - Alice: I want to master file handling.`
+
+# 📘 Day 20: Python Package Manager (pip)
+
+A **package** is a collection of Python modules, and a **Package Manager** is a tool that allows you to install, update, and remove these packages easily.
+
+In Python, the standard package manager is **pip** (Preferred Installer Program). It connects to the [Python Package Index (PyPI)](https://pypi.org/), which hosts hundreds of thousands of free libraries.
+
+## Key Concepts
+
+In this lesson, we will cover:
+
+* **What is pip?:** Understanding the command-line tool.
+
+* **Installing Packages:** How to download libraries like `requests`.
+
+* **Listing Packages:** Seeing what is already installed on your system.
+
+* **Uninstalling Packages:** Keeping your environment clean.
+
+* **Requirements Files:** How to share your project's dependencies with others.
+
+## Code Examples
+
+Unlike previous days, the "code" for pip happens primarily in your **Terminal** or **Command Prompt**, but we use the installed libraries inside our Python scripts.
+
+#### A. Installing a Package (Terminal)
+First, let's install the popular `requests` library, used for making HTTP calls.
+```shell
+    # Type this in your terminal, NOT in the Python shell
+    pip install requests
+```
+
+#### B. Using the Installed Package (Python)
+Once installed, you can import it just like a built-in module.
+```shell
+    """
+    day20_pip_demo.py
+    Demonstrating the use of the 'requests' package installed via pip.
+    """
+    
+    import requests
+    
+    def fetch_github_status():
+        # We use the requests library to get data from an API
+        url = "https://api.github.com"
+        
+        try:
+            response = requests.get(url)
+            
+            # Check if the request was successful (Status Code 200)
+            if response.status_code == 200:
+                print("Successfully connected to GitHub API!")
+                data = response.json()
+                # Accessing data from the returned JSON
+                print(f"Current GitHub API URL: {data['current_user_url']}")
+            else:
+                print(f"Failed with status code: {response.status_code}")
+                
+        except Exception as e:
+            print(f"An error occurred: {e}")
+    
+    if __name__ == "__main__":
+        fetch_github_status()
+```
+
+#### C. Useful pip Commands (Terminal)
+Here are the commands every Python developer should know:
+
+```shell
+    # Check the version of pip
+    pip --version
+    
+    # List all installed packages
+    pip list
+    
+    # Show details about a specific package
+    pip show requests
+    
+    # Uninstall a package
+    pip uninstall requests -y
+```
+
+## Execution Steps
+
+To follow along with today's lesson, follow these steps:
+
+1. Open your Terminal/Command Prompt: (e.g., CMD on Windows, Terminal on macOS/Linux).
+
+2. Verify pip: Type `pip --version`. If it returns a path and version number, you are ready.
+
+3. Install the library: Type `pip install requests` and hit Enter. Wait for the "Successfully installed" message.
+
+4. Create the script: Save the Python code provided in Section 3 as `day20.py`.
+
+5. Run the script: In your terminal, type `python day20.py`.
+
+6. Observe: You should see a message confirming the connection to GitHub's API!
+
+## Mini Challenge
+
+**The Task:** Use `pip` to install a package called `pyjokes` and create a script that prints a random programmer joke.
+
+Steps:
+
+1. In your terminal, run: `pip install pyjokes`.
+
+2. Create a file named `challenge20.py`.
+
+3. Import the library: `import pyjokes`.
+
+4. Call the function `pyjokes.get_joke()` and print the result.
+
+5. Run your script and see if you get a laugh!
+
+*Hint: You can find the documentation for this library on [PyPI.org](https://pypi.org/project/pyjokes/).*
