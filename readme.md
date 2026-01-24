@@ -2113,3 +2113,105 @@ Steps:
 5. Run your script and see if you get a laugh!
 
 *Hint: You can find the documentation for this library on [PyPI.org](https://pypi.org/project/pyjokes/).*
+
+# 📘 Day 21: Classes and Objects
+
+Today, we are stepping into the world of **Object-Oriented Programming (OOP)**.
+
+Up until now, you have been writing "procedural" code—a series of steps or functions. While that works great for small scripts, real-world software is often modeled after real-world things. In Python, a **Class** is like a blueprint, and an **Object** is the actual house built from that blueprint.
+
+## Key Concepts
+
+In this lesson, we will cover:
+
+* **Defining a Class**: Creating your own custom data type.
+
+* **The `__init__` method:** The "constructor" that sets up an object's initial data.
+
+* **Attributes:** Variables that belong to an object.
+
+* **Methods:** Functions that belong to an object (defining what it can *do*).
+
+* **Instantiation:** The process of creating an object from a class.
+
+## Code Examples
+
+Let’s look at a practical example. Imagine we are building a system for a library. We need a way to represent "Books."
+
+```shell
+    # Defining a class using the 'class' keyword (PascalCase naming convention)
+    class Book:
+        """A class to represent a book in a library."""
+    
+        # The __init__ method is called automatically when we create a new object.
+        # 'self' refers to the specific instance of the object being created.
+        def __init__(self, title, author, pages):
+            self.title = title        # Attribute: title
+            self.author = author      # Attribute: author
+            self.pages = pages        # Attribute: pages
+            self.is_checked_out = False  # Attribute with a default value
+    
+        # A method to describe the book
+        def describe(self):
+            return f"'{self.title}' by {self.author} ({self.pages} pages)"
+    
+        # A method to simulate checking the book out
+        def borrow(self):
+            if not self.is_checked_out:
+                self.is_checked_out = True
+                print(f"Success! You have borrowed '{self.title}'.")
+            else:
+                print(f"Sorry, '{self.title}' is already checked out.")
+    
+    # --- Using the Class (Instantiation) ---
+    
+    # Create two different objects (instances) from the Book class
+    book1 = Book("The Alchemist", "Paulo Coelho", 208)
+    book2 = Book("Python Crash Course", "Eric Matthes", 544)
+    
+    # Accessing attributes
+    print(f"Book 1 Title: {book1.title}")
+    
+    # Calling methods
+    print(book1.describe())
+    
+    # Changing state via methods
+    book1.borrow()
+    book1.borrow()  # Trying to borrow it again to see the logic work
+```
+
+## Execution Steps
+
+To see this code in action, follow these steps:
+
+1. Open your IDE: Open VS Code, PyCharm, or even a simple text editor.
+
+2. Create a file: Create a new file named `day21.py`.
+
+3. Copy and Paste: Copy the code block above and paste it into your file.
+
+4. Run the script:
+
+* Open your terminal or command prompt.
+
+* Navigate to the folder where you saved the file.
+
+* Run the command: `python day21.py` (or `python3 day21.py` on Mac/Linux).
+
+5. Observe the output: You will see how the two different objects maintain their own unique data even though they use the same blueprint!
+
+## Mini Challenge
+
+**The Task: Create a `Smartphone` Class**
+
+Create a class named `Smartphone`. It should meet the following requirements:
+
+1. **Attributes:** It should have `brand`, `model`, and `battery_level` (a number from 0 to 100).
+
+2. **Method:** A method called `charge()` that increases the `battery_level` by 10 (but don't let it go over 100!).
+
+3. **Method:** A method called `call()` that prints "Calling from [model]..." but only if the battery is above 0.
+
+4. **Test:** Create an instance of a "Google Pixel 7," call the `call()` method, and then `charge()` it.
+
+*Stuck? Remember that inside your methods, you must use `self.attribute_name` to access or change the object's data!*
