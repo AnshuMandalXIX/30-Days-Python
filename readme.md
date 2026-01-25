@@ -8,7 +8,7 @@
   </sub>
 </div>
 <div align="center">
-<img width="8000" height="300" alt="Python Banner" src="https://github.com/user-attachments/assets/989743a6-3b4e-4ad2-a37b-88b9f4ce5264"/>
+<img width="7000" height="300" alt="Python Banner" src="https://github.com/user-attachments/assets/42f0a62a-f4ed-4b02-922c-91e36cc4b149"/>
 </div>
 
 # 📘 Day 1: Introduction to Python
